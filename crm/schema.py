@@ -5,6 +5,8 @@ from django.db import transaction
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
 import re
 from datetime import datetime
+from graphene_django.filter import DjangoFilterConnectionField
+from .filters import CustomerFilter, ProductFilter, OrderFilter
 
 # GraphQL Types
 class CustomerType(DjangoObjectType):
@@ -131,5 +133,8 @@ class Mutation(graphene.ObjectType):
 
 class Query(graphene.ObjectType):
     hello = graphene.String(default_value="Hello, GraphQL!")
+    all_customers = DjangoFilterConnectionField(CustomerType, filterset_class=CustomerFilter, order_by=graphene.List(of_type=graphene.String))
+    all_products = DjangoFilterConnectionField(ProductType, filterset_class=ProductFilter, order_by=graphene.List(of_type=graphene.String))
+    all_orders = DjangoFilterConnectionField(OrderType, filterset_class=OrderFilter, order_by=graphene.List(of_type=graphene.String))
 
 schema = graphene.Schema(query=Query, mutation=Mutation)
