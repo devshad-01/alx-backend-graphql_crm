@@ -1,10 +1,16 @@
 #!/bin/bash
 
+# Get the directory of the script
+SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+
+# Change to the project directory
+cd "$SCRIPT_DIR/../../"
+
 # Activate the virtual environment
-source /home/shad/Projects/alx-backend-graphql_crm/.venv/bin/activate
+source .venv/bin/activate
 
 # Run the Django shell command to delete inactive customers
-/home/shad/Projects/alx-backend-graphql_crm/.venv/bin/python manage.py shell <<EOF
+.venv/bin/python manage.py shell <<EOF
 from datetime import datetime, timedelta
 from crm.models import Customer
 
